@@ -10,7 +10,7 @@ class PrepositionSelector(object):
     """ High level class for prepositon selector
     """
     
-    def __init__(self, prepositions,multiplier, bigram_prob, pos_trigrams_prob):
+    def __init__(self, prepositions,preposition_data,multiplier, bigram_prob, pos_trigrams_prob):
         """
         Loads the prepositions, initializes the outcomes
         and loads the data for features
@@ -19,26 +19,23 @@ class PrepositionSelector(object):
         bigram_prob - bigrams probability distribution
         pos_trigrams_prob - pos trigrams probababilty distribution
         """
-        assert type(prepositions) == dict
         self._bigram_prob = bigram_prob
         self._trigram_prob = pos_trigrams_prob
-        self._prepositions = {}
-        self._preposition_data = prepositions
-        for i in range(0,len(prepositions)):
-            self._prepositions[prepositions.keys()[i]] = (i+1)*multiplier
+        self._prepositions = tuple(prepositions)
+        self._preposition_data = preposition_data
         self._outcome_and_sents = []
-        for key in self._prepositions.keys():
+        for key in self._prepositions_data.keys():
             sentences = self._preposition_data[key]
             for sents in sentences:
                 temp = []
-                temp.append(self._prepositions[key])
+                temp.append(self._prepositions.index(key))
                 temp.append(sents)
                 self._outcome_and_sents.append(temp)
 
     def get_feature_vector(self, sents) :
         vector = zeros(len(self._prepositions), float64)
         for counter in range(0, len(self._prepositions)):
-            vector[counter] = self.calculate_feature_value(sents, self._prepositions.keys()[counter])
+            vector[counter] = self.calculate_feature_value(sents, self._prepositions.[counter])
         return vector
 
     def get_outcome_and_sents(self):
