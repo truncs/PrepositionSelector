@@ -10,7 +10,7 @@ class PrepositionSelector(object):
     """ High level class for prepositon selector
     """
     
-    def __init__(self, prepositions,preposition_data,multiplier, bigram_prob, pos_trigrams_prob):
+    def __init__(self, prepositions,preposition_data, bigram_prob, pos_trigrams_prob):
         """
         Loads the prepositions, initializes the outcomes
         and loads the data for features
@@ -24,7 +24,7 @@ class PrepositionSelector(object):
         self._prepositions = tuple(prepositions)
         self._preposition_data = preposition_data
         self._outcome_and_sents = []
-        for key in self._prepositions_data.keys():
+        for key in self._preposition_data.keys():
             sentences = self._preposition_data[key]
             for sents in sentences:
                 temp = []
@@ -35,7 +35,7 @@ class PrepositionSelector(object):
     def get_feature_vector(self, sents) :
         vector = zeros(len(self._prepositions), float64)
         for counter in range(0, len(self._prepositions)):
-            vector[counter] = self.calculate_feature_value(sents, self._prepositions.[counter])
+            vector[counter] = self.calculate_feature_value(sents, self._prepositions[counter])
         return vector
 
     def get_outcome_and_sents(self):

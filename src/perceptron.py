@@ -12,15 +12,16 @@ class Perceptron(object):
     def __init__(self, input_vector,event_size, outcome_size,weights=None):
         assert event_size >=  1
         assert outcome_size >=  2
-        assert weights == ndarray
         self._count = 0
         self._predicted = 0
         self._learning_rate = random.random()
         if weights is None:
             self._weights = zeros(outcome_size, float64)
         else:
+            assert type(weights) == ndarray
             self._weights = weights
         self._input = tuple(input_vector)
+        self._incorrect_predictions = []
         
     def predict(self, event, outcome, learn=False):
         ''''
@@ -31,16 +32,18 @@ class Perceptron(object):
         - `learn`: bool for learning mode
         '''
         assert type(event) == ndarray 
-        assert self._input.size  == event.size
+        assert len(self._input)  == event.size
+        self._count += 1
         outcome_vector = self.classify(event)
         pred = outcome_vector.argmax()
         if pred != outcome:
             if learn:
-                self._update_weights(outcome, event, -1 )
-                self._update_weights(pred, event, 1)
-            return False
+                self._update_weights(outcome, event, 1 )
+                self._update_weights(pred, event, -1)
+            return (False, pred)
         else:
-            return True
+            self._predicted += 1
+            return (True, pred)
         
     def _update_weights(self, index, event, delta):
         self._weights[index] += event[index]*self._learning_rate*delta
@@ -48,7 +51,8 @@ class Perceptron(object):
     def classify(self, event):
         return self._weights * event
         
-        
+    def accuracy(self):
+        return float(self._predicted) / self._count
 
 
         

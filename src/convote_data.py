@@ -4,15 +4,15 @@ import pickle
 from nltk import *
 from nltk.corpus import PlaintextCorpusReader
 
-training_corpus_root = "../convote/data_stage_one/training_set"
-dev_corupus_root = "../convote/data_stage_one/development_set"
-test_corupus_root = "../convote/data_stage_one/test_set"
+training_corpus_root = "../data/training_set"
+dev_corupus_root = "../data/development_set"
+test_corupus_root = "../data/test_set"
 convote_training = PlaintextCorpusReader(training_corpus_root, '.*')
 convote_dev = PlaintextCorpusReader(dev_corupus_root, '.*')
 convote_test = PlaintextCorpusReader(test_corupus_root, '.*')
  
 bigram = bigrams(convote_training.tokenized())
-outfile = open('/home/aditya/nlp/training_bigrams', 'w')
+outfile = open('../data/training_bigrams', 'w')
 
 pos_tokens = pos_tag(convote_training.tokenized())
 prep_tokens = []
@@ -24,7 +24,7 @@ for (word, pos) in pos_tokens:
         prep_tokens.append(pos)
         
 trigram = nltk.trigrams(prep_tokens)
-trigram_file = open('/home/aditya/nlp/pos_trigrams', 'w')
+trigram_file = open('../data/pos_trigrams', 'w')
 
 pickle.dump(bigram, outfile)
 pickle.dump(trigram, trigram_file)
