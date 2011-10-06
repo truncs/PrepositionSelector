@@ -6,7 +6,7 @@ from types import *
 class Perceptron(object):
     """
     Implementation of the perceptron algorithm,
-    which is  simple machine learning algorithm.
+    which is a  simple machine learning algorithm.
     """
     
     def __init__(self, input_vector,event_size, outcome_size,weights=None):
